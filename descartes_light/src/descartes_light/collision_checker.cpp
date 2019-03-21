@@ -13,9 +13,10 @@ descartes_light::TesseractCollision::TesseractCollision(tesseract::BasicEnvConst
   }
 
   contact_manager_->setActiveCollisionObjects(kin_group_->getLinkNames());
+  contact_manager_->setContactDistanceThreshold(0);
   contact_manager_->setIsContactAllowedFn(std::bind(&TesseractCollision::isContactAllowed, this, std::placeholders::_1,
                                                     std::placeholders::_2));
-  }
+}
 
 bool descartes_light::TesseractCollision::validate(const double* pos, std::size_t size)
 {

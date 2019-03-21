@@ -113,19 +113,19 @@ trajopt::TrajOptProbPtr makeProblem(const hybrid_planning_common::EnvironmentDef
   pci.init_info.data = hybrid_planning_common::jointTrajectoryToTrajopt(seed);
 
   // Populate Cost Info
-  auto jv = std::make_shared<trajopt::JointVelCostInfo>();
+  auto jv = std::make_shared<trajopt::JointVelTermInfo>();
   jv->coeffs = std::vector<double>(dof, 2.5);
   jv->name = "joint_vel";
   jv->term_type = trajopt::TT_COST;
   pci.cost_infos.push_back(jv);
 
-  auto ja = std::make_shared<trajopt::JointAccCostInfo>();
+  auto ja = std::make_shared<trajopt::JointAccTermInfo>();
   ja->coeffs = std::vector<double>(dof, 5.0);
   ja->name = "joint_acc";
   ja->term_type = trajopt::TT_COST;
   pci.cost_infos.push_back(ja);
 
-  auto collision = std::make_shared<trajopt::CollisionCostInfo>();
+  auto collision = std::make_shared<trajopt::CollisionTermInfo>();
   collision->name = "collision";
   collision->term_type = trajopt::TT_COST;
   collision->continuous = false;
@@ -156,7 +156,7 @@ trajopt::TrajOptProbPtr makeProblem(const hybrid_planning_common::EnvironmentDef
   // Populate Constraints
   for (std::size_t i = 0; i < pass.size(); ++i)
   {
-    auto pose = std::make_shared<trajopt::StaticPoseCostInfo>();
+    auto pose = std::make_shared<trajopt::CartPoseTermInfo>();
     pose->term_type = trajopt::TT_CNT;
     pose->name = "waypoint_cart_" + std::to_string(i);
     pose->link = "sander_tcp";
